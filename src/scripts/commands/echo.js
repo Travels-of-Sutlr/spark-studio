@@ -21,15 +21,15 @@ class Echo extends Command {
 
         if (!args.length)
             return await msg.channel.send("There's nothing to say...");
-        
-        if (msg.deletable)
-            await msg.delete();
 
         let wh = await msg.channel.createWebhook(msg.author.username, msg.author.displayAvatarURL);
         
         await wh.send(msg.cleanContent.slice(msg.settings.prefix.length + msg.invoked.length).trim());
 
         await wh.delete();
+        
+        if (msg.deletable)
+            await msg.delete();
 
     }
 
