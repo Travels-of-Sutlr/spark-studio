@@ -1,0 +1,33 @@
+{
+  "name": "spark-bot-studio",
+  "version": "0.0.1",
+  "description": "Private bot of Spark",
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "node ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Travels-of-Sutlr/spark-studio.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "spark",
+    "studio",
+    "node"
+  ],
+  "author": "GinmaTheDev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Travels-of-Sutlr/spark-studio/issues"
+  },
+  "homepage": "https://github.com/Travels-of-Sutlr/spark-studio#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "enmap": "^3.1.1",
+    "pg": "^7.4.3"
+  }
+}
