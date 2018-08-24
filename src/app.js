@@ -213,6 +213,11 @@ require("./scripts/modules/functions.js")(client);
 
 var init = async () => {
 
+    // Not sure if this will fix "Web process failed to bind to $PORT within 60 seconds of launch".
+    // But who cares...
+    console.log("Waiting for 60 seconds before initialization...");
+    await client.wait(60000);
+
     console.log("Initializing...\n");
 
 
