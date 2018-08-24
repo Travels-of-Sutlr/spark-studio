@@ -9,7 +9,7 @@ class Echo extends Command {
         super(client, {
 
             name: "echo",
-            description: "Makes the bot says something you want to it to say.",
+            description: "Echoes the message as you!",
             category: "Fun",
             usage: "echo <message>"
 
@@ -26,10 +26,10 @@ class Echo extends Command {
         
         await wh.send(msg.cleanContent.slice(msg.settings.prefix.length + msg.invoked.length).trim());
 
-        await wh.delete();
-        
         if (msg.deletable)
             await msg.delete();
+
+        await wh.delete();
 
     }
 
