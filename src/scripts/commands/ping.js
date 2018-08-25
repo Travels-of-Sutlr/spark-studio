@@ -15,17 +15,34 @@ class Ping extends Command {
 
         });
 
+        this.COLORS = {
+
+            1: 65280,
+            2: 10878720,
+            3: 986880,
+            4: 16753920,
+            5: 16711680
+        };
+
     }
 
     async run(msg, args, level) {
         
-        let ping = new Date() - msg.createdAt;
+        let ping = Math.ceil((new Date() - msg.createdAt) / 100), color = 0;
+
+        if (ping < 5)
+            color = this.COLORS[ping];
+        
+        else
+            color = this.COLORS[ping];
+
+
         await msg.channel.send({
 
             embed: { 
 
                 // I don't know anything about pings... lel
-                color: ping <= 100 ? 65280 : ping <= 200 ? 10878720 : ping <= 300 ? 986880 : ping <= 400 ? 16753920 : 16711680,
+                color,
                 fields: [
 
                     {
