@@ -22,7 +22,7 @@ class Ping extends Command {
         let ping = new Date() - msg.createdAt;
 
         await msg.channel.send({
-            
+
             embed: { 
 
                 // I don't know anything about pings... lel
@@ -32,14 +32,16 @@ class Ping extends Command {
                     {
 
                         name: "\u{1F3D3} Ping",
-                        value: `${ping}ms`
+                        value: `${ping}ms`,
+                        inline: true
 
                     },
 
                     {
 
                         name: "\u2764 Heartbeat",
-                        value: `${this.client.ping}ms`
+                        value: `${this.client.status}ms`,
+                        inline: true
                         
                     }
 
