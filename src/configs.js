@@ -13,17 +13,6 @@ module.exports = {
 
     },
 
-    poolConfig: {
-
-        user: process.env.DATABASE_USER,
-        host: process.env.DATABASE_HOST,
-        database: process.env.DATABASE,
-        password: process.env.DATABASE_KEY,
-        port: +process.env.DATABASE_PORT,
-        ssl: true
-
-    },
-
     dGuildSettings: {
 
         prefix: ">",
