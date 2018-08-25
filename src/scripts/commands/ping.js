@@ -40,7 +40,7 @@ class Ping extends Command {
                     {
 
                         name: "\u2764 Heartbeat",
-                        value: `${this.client.status}ms`,
+                        value: `${this.client.pings[0]}ms`,
                         inline: true
                         
                     }
