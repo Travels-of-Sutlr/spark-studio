@@ -26,7 +26,7 @@ class Ping extends Command {
             embed: { 
 
                 // I don't know anything about pings... lel
-                color: ping <= 100 ? 65280 : ping <= 200 ? 1048320 : ping <= 300 ? 986880 : ping <= 400 ? 16715520 : 16711680,
+                color: ping <= 100 ? 65280 : ping <= 200 ? 10878720 : ping <= 300 ? 986880 : ping <= 400 ? 16753920 : 16711680,
                 fields: [
 
                     {
