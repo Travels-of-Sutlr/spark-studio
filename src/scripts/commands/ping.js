@@ -10,7 +10,7 @@ class Ping extends Command {
 
             name: "ping",
             description: "Checks your ping.",
-            category: "Fun",
+            category: "Bot",
             usage: "ping"
 
         });
@@ -20,7 +20,6 @@ class Ping extends Command {
     async run(msg, args, level) {
         
         let ping = new Date() - msg.createdAt;
-
         await msg.channel.send({
 
             embed: { 
@@ -31,19 +30,20 @@ class Ping extends Command {
 
                     {
 
-                        name: "\u{1F3D3} Ping",
+                        name: "\u{1F3D3} Roundtrip",
                         value: `${ping}ms`,
                         inline: true
 
-                    },
+                    } /* ,
 
                     {
 
+                        // Don't mind... client.ping broke on meh
                         name: "\u2764 Heartbeat",
                         value: `${Math.ceil(this.client.ping)}ms`,
                         inline: true
                         
-                    }
+                    } */
 
                 ]
 
