@@ -26,7 +26,7 @@ class Ping extends Command {
             embed: { 
 
                 // I don't know anything about pings... lel
-                color: ping <= 50 ? 1044480 : ping <= 100 ? 61440 : ping <= 150 ? 15790080 : ping <= 500 ? 15728640 : 267386880,
+                color: ping <= 50 ? 65280 : ping <= 100 ? 3840 : ping <= 150 ? 1048320 : ping <= 200 ? 986880 : ping <= 250 ? 16715520 : ping <= 300 ? 983040 : 16711680,
                 fields: [
 
                     {
@@ -40,7 +40,7 @@ class Ping extends Command {
                     {
 
                         name: "\u2764 Heartbeat",
-                        value: `${this.client.pings[0]}ms`,
+                        value: `${Math.ceil(this.client.ping)}ms`,
                         inline: true
                         
                     }
