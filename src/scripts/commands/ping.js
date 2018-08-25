@@ -28,13 +28,15 @@ class Ping extends Command {
 
     async run(msg, args, level) {
         
-        let ping = Math.ceil((new Date() - msg.createdAt) / 100), color = 0;
+        let ping = new Date() - msg.createdAt,
+            temp = Math.ceil(ping/100),
+            color = 0;
 
-        if (ping < 5)
-            color = this.COLORS[ping];
+        if (temp < 5)
+            color = this.COLORS[temp];
         
         else
-            color = this.COLORS[ping];
+            color = this.COLORS[temp];
 
 
         await msg.channel.send({
