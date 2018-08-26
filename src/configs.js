@@ -94,13 +94,13 @@ module.exports = {
             name: "Bot Collaborator",
             level: 7,
             guildOnly: false,
-            test: (msg) => {
+            test: async (msg) => {
 
-                const cl = msg.client.pool.connect();
+                const cl = await msg.client.pool.connect();
 
                 try {
                     
-                    let data = cl.query(`SELECT collabs FROM bot_settings WHERE id = '${msg.client.user.id}'`).rows[0];
+                    let data = await cl.query(`SELECT collabs FROM bot_settings WHERE id = '${msg.client.user.id}'`).rows[0];
                     if (data && data.collabs.includes(msg.author.id))
                         return true;
 
@@ -112,7 +112,7 @@ module.exports = {
 
                 }
 
-                cl.release(true);
+                await cl.release(true);
                 return false;
             }
 

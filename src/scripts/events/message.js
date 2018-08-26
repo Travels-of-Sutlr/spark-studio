@@ -24,7 +24,7 @@ module.exports = class {
         let args = msg.content.slice(settings.prefix.length).trim().split(/ +/g);
         let invoked = args.shift().toLowerCase();
 
-        const lvl = this.client.permLevel(msg);
+        const lvl = await this.client.permLevel(msg);
         const cmd = this.client.commands.get(invoked) || this.client.commands.get(this.client.aliases.get(invoked));
 
         if (!cmd)
