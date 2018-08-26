@@ -49,7 +49,7 @@ class Eval extends Command {
 
                     files: [
 
-                        new Attachment(Buffer.from(evaled, "utf-8"), "output.txt"));
+                        new Attachment(Buffer.from(evaled, "utf-8"), "output.txt")
 
                     ]
 
