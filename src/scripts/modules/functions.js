@@ -7,7 +7,7 @@ module.exports = (client) => {
 
     client.wait = require("util").promisify(setTimeout);
 
-    client.clean = async (client, text) => {
+    client.clean = async function(text) {
 
         if (text && text.constructor.name === "Promise")
             text = await text;
@@ -16,7 +16,7 @@ module.exports = (client) => {
             text = require("util").inspect(text, { depth: 0 });
         
         text = text.replace(/`/g, "` ")
-            .replace(client.token, "<TOKEN>");
+            .replace(process.env.TOKEN, "<TOKEN>");
         
         return text;
 
