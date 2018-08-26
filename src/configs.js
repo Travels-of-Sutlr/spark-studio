@@ -100,7 +100,7 @@ module.exports = {
 
                 try {
                     
-                    let data = await cl.query(`SELECT collabs FROM bot_settings WHERE id = '${msg.client.user.id}'`).rows[0];
+                    let data = (await cl.query(`SELECT collabs FROM bot_settings WHERE id = '${msg.client.user.id}'`)).rows[0];
                     if (data && data.collabs.includes(msg.author.id))
                         return true;
 

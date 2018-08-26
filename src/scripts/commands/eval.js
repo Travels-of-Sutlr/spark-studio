@@ -26,7 +26,7 @@ class Eval extends Command {
         try {
 
             let evaled = eval(args.join(" "));
-            evaled = await client.clean(evaled);
+            evaled = await client.clean(client, evaled);
 
             let len = 3 + 2 + 1 + evaled.length + 1 + 3;
             if (len > 2000) {
