@@ -5,9 +5,9 @@ module.exports = {
         
         color: {
 
-            dec: 0,
-            hex: "#",
-            rgb: [0,0,0]
+            dec: 7723185,
+            hex: "#75D8B1",
+            rgb: [ 117, 216, 177 ]
 
         }
 
@@ -94,7 +94,27 @@ module.exports = {
             name: "Bot Collaborator",
             level: 7,
             guildOnly: false,
-            test: (msg) => { }
+            test: (msg) => {
+
+                const cl = msg.client.pool.connect();
+
+                try {
+                    
+                    let data = cl.query(`SELECT collabs FROM bot_settings WHERE id = '${msg.client.user.id}'`).rows[0];
+                    if (data && data.collabs.includes(msg.author.id))
+                        return true;
+
+                }
+
+                catch (e) {
+
+                    console.log(`Unable to obtain 'collabs' from bot_settings table:\n${e.stack}`);
+
+                }
+
+                cl.release(true);
+                return false;
+            }
 
         },
 
