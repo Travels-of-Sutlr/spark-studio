@@ -2,6 +2,26 @@
 // Base Class.
 const Command = require("../base/Command.js");
 
+const COLORS = {
+
+    1: 65280,
+    2: 10878720,
+    3: 986880,
+    4: 16753920,
+    undefined: 16711680
+
+};
+
+function getColor(ping) {
+
+    let temp = COLORS[ping];
+    if (!temp)
+        temp = COLORS[temp];
+    
+    return temp;
+
+}
+
 class Ping extends Command {
 
     constructor(client) {
@@ -15,28 +35,12 @@ class Ping extends Command {
 
         });
 
-        this.COLORS = {
-
-            1: 65280,
-            2: 10878720,
-            3: 986880,
-            4: 16753920,
-            5: 16711680
-        };
-
     }
 
     async run(msg, args, level) {
         
         let ping = new Date() - msg.createdAt,
-            temp = Math.ceil(ping/100),
-            color = 0;
-
-        if (temp < 5)
-            color = this.COLORS[temp];
-        
-        else
-            color = this.COLORS[temp];
+            color = getColor(Math.ceil(ping/100));
 
 
         await msg.channel.send({
