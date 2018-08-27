@@ -15,7 +15,7 @@ const Spark = (() => {
 
     function Spark(options) {
 
-        Discord.Client.call(this, options);
+        Discord.Client.prototype.constructor.call(this, options);
 
         this.config = require("./configs.js");
         this.commands = new Enmap();
@@ -23,6 +23,8 @@ const Spark = (() => {
         this.pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true });
 
     }
+
+    Spark.prototype = Object.create(Discord.Client.prototype);
 
     Spark.prototype.loadCommand = function(path) {
 
