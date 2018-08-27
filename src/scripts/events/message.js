@@ -30,6 +30,9 @@ module.exports = class {
         if (!cmd)
             return;
 
+        if (!cmd.conf.enabled)
+            return await msg.channel.send("This command is currently disabled. Please try again later!");
+
         if (!msg.guild && cmd.conf.guildOnly)
             return await msg.channel.send("This command is not available via direct message. Please run the command in a server.");
 
