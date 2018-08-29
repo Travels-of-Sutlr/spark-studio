@@ -15,7 +15,10 @@ class Spark extends Discord.Client {
 
     constructor(options) {
 
+
+        // lel...
         super(options);
+        new Discord.Client.call(this, options);
 
         this.config = require("./configs.js");
         this.commands = new Enmap();
@@ -130,6 +133,29 @@ class Spark extends Discord.Client {
 
     }
 
+    async permLevel(msg) {
+
+        let permLevels = this.config.permLevel.sort((a, b) => a.level > b.level ? 1 : -1).slice(1);
+        let lvl = 0;
+
+        for (var level of permLevels) {
+
+            if (!msg.guild && level.guildOnly)
+                continue;
+            
+            if (await level.test(msg)) {
+
+                lvl = level.level;
+                break;
+
+            }
+
+        }
+
+        return lvl;
+
+    }
+
     async getGuildSettings(id) {
 
         let client = await this.pool.connect();
@@ -183,26 +209,15 @@ class Spark extends Discord.Client {
 
     }
 
-    async permLevel(msg) {
+    async getUserData(id) {
 
-        let permLevels = this.config.permLevel.sort((a, b) => a.level > b.level ? 1 : -1).slice(1);
-        let lvl = 0;
 
-        for (var level of permLevels) {
 
-            if (!msg.guild && level.guildOnly)
-                continue;
-            
-            if (await level.test(msg)) {
+    }
 
-                lvl = level.level;
-                break;
+    async writeUserData(id, data = {}) {
 
-            }
 
-        }
-
-        return lvl;
 
     }
 
