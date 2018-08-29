@@ -1,3 +1,4 @@
+"use strict";
 
 // NodeJS Modules.
 const { promisify } = require("util");
