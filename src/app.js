@@ -20,7 +20,6 @@ class Spark extends Discord.Client {
         this.config = require("./configs.js");
         this.commands = new Enmap();
         this.aliases = new Enmap();
-        this.pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true });
 
     }
 
@@ -227,7 +226,8 @@ var init = async () => {
 
     console.log("Initializing...\n");
 
-
+    
+    client.pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true });
     let cl = await client.pool.connect();
 
     try {
