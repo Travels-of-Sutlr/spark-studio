@@ -15,7 +15,7 @@ module.exports = class {
         if (msg.guild && !msg.guild.me.permissionsIn(msg.channel).has("SEND_MESSAGES", true))
             return;
 
-        let settings = await this.client.getGuildSettings(msg.guild ? msg.guild.id : msg.user.id);
+        let settings = await this.client.getGuildSettings(msg.guild ? msg.guild.id : msg.author.id);
         msg.settings = settings;
 
         if (!msg.content.startsWith(settings.prefix))
