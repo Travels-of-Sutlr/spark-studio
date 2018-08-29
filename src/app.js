@@ -15,10 +15,7 @@ class Spark extends Discord.Client {
 
     constructor(options) {
 
-
-        // lel...
         super(options);
-        new Discord.Client.call(this, options);
 
         this.config = require("./configs.js");
         this.commands = new Enmap();
