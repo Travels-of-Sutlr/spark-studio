@@ -1,4 +1,3 @@
-"use strict";
 
 // NodeJS Modules.
 const { promisify } = require("util");
@@ -306,7 +305,7 @@ var init = async () => {
 
     }
 
-    client.login(process.env.TOKEN);
+    await client.login(process.env.TOKEN);
 
 
     console.log("\nFinished initializing.");
