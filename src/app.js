@@ -155,13 +155,13 @@ class Spark extends Discord.Client {
 
     async getGuildSettings(id) {
 
-        let client = await this.pool.connect();
-        let defs = this.config.dGuildSettings;
+        const client = await this.pool.connect();
+        const defs = this.config.dGuildSettings;
 
-        let result = (await client.query(`SELECT ${Object.getOwnPropertyNames(defs).join(", ")} FROM guild_settings WHERE id = '${id}'`)).rows[0];
-        if (!result) {
+        let settings = (await client.query(`SELECT ${Object.getOwnPropertyNames(defs).join(", ")} FROM guild_settings WHERE id = '${id}'`)).rows[0];
+        if (!settings) {
 
-            result = {};
+            settings = {};
             console.log(`Unable to obtain guild settings with the ID: ${id}`);
 
         }
@@ -169,7 +169,7 @@ class Spark extends Discord.Client {
         let obj = {};
         for (var [ key, value ] of Object.entries(defs)) {
 
-            obj[key] = result[key] ? result[key] : value;
+            obj[key] = settings[key] ? settings[key] : value;
 
         }
 
@@ -180,8 +180,8 @@ class Spark extends Discord.Client {
 
     async writeGuildSettings(id, data = {}) {
 
-        let client = await this.pool.connect();
-        let defs = this.config.dGuildSettings;
+        const client = await this.pool.connect();
+        const defs = this.config.dGuildSettings;
 
         let obj = {};
 
@@ -208,13 +208,54 @@ class Spark extends Discord.Client {
 
     async getUserData(id) {
 
+        const client = await this.pool.connect();
+        const defs = this.config.dUserSettings;
 
+        let userData = (await client.query(`SELECT * FROM user_data WHERE id = '${id}'`)).rows[0];
+        if (!userData) {
+
+            userData = {};
+            console.log(`Unable to obtain user data of ID: ${id}`);
+
+        }
+
+        let obj = {};
+        for (var [key, value] of Object.entries(defs)) {
+
+            obj[key] = userData[key] ? userData[key] : value;
+
+        }
+
+        await client.release(true);
+        return obj;
 
     }
 
     async writeUserData(id, data = {}) {
 
+        const client = await this.pool.connect();
+        const defs = this.config.dUserSettings;
 
+        let obj = {};
+
+        for (var [ key, value ] of Object.entries(defs)) {
+
+            if (data[key] && data[key] !== value) {
+
+                obj[key] = data[key];
+
+            }
+
+            else {
+
+                obj[key] = null;
+
+            }
+
+        }
+
+        await client.query(`UPDATE user_data SET ${Object.entries(obj).reduce((acc, [ col, dat ], i) => acc + `${i !== 0 ? ", " : ""}${col} = ${typeof dat === "string" ? `'${dat}'` : dat}`, "")} WHERE id = '${id}'`);
+        await client.release(true);
 
     }
 
