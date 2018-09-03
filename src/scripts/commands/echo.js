@@ -19,17 +19,31 @@ class Echo extends Command {
 
     async run(msg, args, level) {
 
+        const { TextChannel } = require("discord.js");
+
         if (!args.length)
             return await msg.channel.send("There's nothing to say...");
 
-        let wh = await msg.channel.createWebhook(msg.author.username, msg.author.displayAvatarURL);
-        
-        await wh.send(msg.cleanContent.slice(msg.settings.prefix.length + msg.invoked.length).trim());
+        let message = msg.cleanContent.slice(msg.settings.prefix.length + msg.invoked.length).trim();
+
+        if (msg.channel instanceof TextChannel) {
+
+            let wh = await msg.channel.createWebhook(msg.author.username, msg.author.displayAvatarURL);
+            
+            await wh.send(message);
+
+            await wh.delete();
+
+        }
+
+        else {
+
+            await msg.channel.send(message);
+
+        }
 
         if (msg.deletable)
             await msg.delete();
-
-        await wh.delete();
 
     }
 
