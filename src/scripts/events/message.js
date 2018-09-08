@@ -9,6 +9,8 @@ module.exports = class {
 
     async run(msg) {
 
+        console.log(this.client.clean(this.client));
+
         if (msg.author.bot)
             return;
 
@@ -57,7 +59,9 @@ module.exports = class {
 
         try {
 
-            cmd.run(msg, args, lvl);
+            console.log(this.client.clean(this.client));
+            await cmd.run(msg, args, lvl);
+            console.log(this.client.clean(this.client));
 
         }
 
