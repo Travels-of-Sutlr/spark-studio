@@ -20,17 +20,18 @@ class Spark extends Discord.Client {
         this.config = require("./configs.js");
         this.commands = new Enmap();
         this.aliases = new Enmap();
+        this.cooldowns = new Array();
         this.pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true });
 
     }
 
-    loadCommand(path) {
+    loadCommand(path, client) {
 
         try {
             
             let info = Path.parse(path);
 
-            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))(this);
+            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))(client || this);
             cmd.conf.location = info.dir;
             cmd.conf.base = info.base;
 
@@ -321,7 +322,7 @@ var init = async () => {
         let path = `${__dirname}/scripts/commands/${base}`
         console.log(`Loading command: ${Path.basename(path, ".js")} at ${Path.dirname(path)}`);
 
-        let response = client.loadCommand(path);
+        let response = client.loadCommand(path, client);
         if (response)
             console.log(response);
 
