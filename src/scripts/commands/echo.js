@@ -4,9 +4,9 @@ const Command = require("../base/Command.js");
 
 class Echo extends Command {
 
-    constructor(client) {
+    constructor() {
 
-        super(client, {
+        super({
 
             name: "echo",
             description: "Echoes the message as you!",
@@ -17,7 +17,7 @@ class Echo extends Command {
 
     }
 
-    async run(msg, args, level) {
+    async run(client, msg, args, level) {
 
         const { TextChannel } = require("discord.js");
 

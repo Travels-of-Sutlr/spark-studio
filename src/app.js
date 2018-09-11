@@ -1,4 +1,3 @@
-"use strict";
 
 // NodeJS Modules.
 const { promisify } = require("util");
@@ -9,6 +8,7 @@ const readdir = promisify(FS.readdir);
 // NodeJS Packages.
 const Discord = require("discord.js");
 const Enmap = require("enmap");
+const Klaw = require("klaw");
 const { Pool } = require("pg");
 
 class Spark extends Discord.Client {
@@ -25,13 +25,19 @@ class Spark extends Discord.Client {
 
     }
 
-    loadCommand(path, client) {
+    loadCommand(path) {
+
+        console.log(`Loading command: ${Path.basename(path)}`);
 
         try {
             
             let info = Path.parse(path);
 
-            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))(client || this);
+            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))();
+
+            if (cmd.init)
+                cmd.init(this);
+
             cmd.conf.location = info.dir;
             cmd.conf.base = info.base;
 
@@ -316,17 +322,17 @@ var init = async () => {
 
     await cl.release(true);
 
-    let cmdPaths = (await readdir("./src/scripts/commands")).filter(p => /\.js$/g.test(p));
-    for (var base of cmdPaths) {
+    Klaw("./src/scripts/commands", { depthLimit: 0 }).on("data", (item) => {
 
-        let path = `${__dirname}/scripts/commands/${base}`
-        console.log(`Loading command: ${Path.basename(path, ".js")} at ${Path.dirname(path)}`);
+        if (/.js$/gi.test(item.path)) {
 
-        let response = client.loadCommand(path, client);
-        if (response)
-            console.log(response);
+            let response = client.loadCommand(item.path);
+            if (response)
+                console.log(response);
 
-    }
+        }
+
+    });
 
     let evtPaths = (await readdir("./src/scripts/events")).filter(p => /\.js$/g.test(p));
     for (var base of evtPaths) {

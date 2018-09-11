@@ -16,7 +16,7 @@ module.exports = (client) => {
             text = require("util").inspect(text, { depth: 0 });
         
         text = text.replace(/`/g, "` ")
-            .replace(process.env.TOKEN, "<TOKEN>");
+            .replace(this.token, "<TOKEN>");
         
         return text;
 

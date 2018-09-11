@@ -1,7 +1,8 @@
 
 class Command {
 
-    constructor(client, {
+    constructor({
+
         name = null,
         description = "No description provided.",
         category = "Miscellaneous",
@@ -10,9 +11,9 @@ class Command {
         guildOnly = false,
         aliases = new Array(),
         permLevel = "User"
+        
     }) {
 
-        this.client = client;
         this.help = { name, description, category, usage };
         this.conf = { enabled, guildOnly, aliases, permLevel };
 

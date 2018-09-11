@@ -28,6 +28,7 @@ module.exports = {
         exp: 0,
         rep: 0,
         lastdaily: null,
+        lastrep: null,
         warns: new Array(),
         kicks: new Array(),
         bans: new Array(),

@@ -24,9 +24,9 @@ function getColor(ping) {
 
 class Ping extends Command {
 
-    constructor(client) {
+    constructor() {
 
-        super(client, {
+        super({
 
             name: "ping",
             description: "Checks your ping.",
@@ -37,7 +37,7 @@ class Ping extends Command {
 
     }
 
-    async run(msg, args, level) {
+    async run(client, msg, args, level) {
         
         let ping = new Date() - msg.createdAt,
             color = getColor(Math.ceil(ping/100));
@@ -57,16 +57,15 @@ class Ping extends Command {
                         value: `${ping}ms`,
                         inline: true
 
-                    } /* ,
+                    },
 
                     {
 
-                        // Don't mind... client.ping broke on meh
                         name: "\u2764 Heartbeat",
-                        value: `${Math.ceil(this.client.ping)}ms`,
+                        value: `${Math.ceil(client.ping)}ms`,
                         inline: true
                         
-                    } */
+                    }
 
                 ]
 

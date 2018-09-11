@@ -57,7 +57,7 @@ module.exports = class {
 
         try {
 
-            await cmd.run(msg, args, lvl);
+            await cmd.run(this.client, msg, args, lvl);
 
         }
 

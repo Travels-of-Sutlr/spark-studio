@@ -4,9 +4,9 @@ const Command = require("../base/Command.js");
 
 class Eval extends Command {
 
-    constructor(client) {
+    constructor() {
 
-        super(client, {
+        super({
 
             name: "eval",
             description: "Evaluates JavaScript code.",
@@ -18,9 +18,8 @@ class Eval extends Command {
 
     }
 
-    async run(msg, args, level) {
-
-        const client = this.client;
+    async run(client, msg, args, level) {
+        
         const { Attachment } = require("discord.js");
 
         try {
