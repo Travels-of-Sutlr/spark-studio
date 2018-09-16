@@ -7,7 +7,6 @@ const readdir = promisify(FS.readdir);
 
 // NodeJS Packages.
 const Discord = require("discord.js");
-const Enmap = require("enmap");
 const Klaw = require("klaw");
 const { Pool } = require("pg");
 
@@ -18,8 +17,7 @@ class Spark extends Discord.Client {
         super(options);
 
         this.config = require("./configs.js");
-        this.commands = new Enmap();
-        this.aliases = new Enmap();
+        this.commands = new Array();
         this.cooldowns = new Array();
         this.pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: true });
 
@@ -33,7 +31,7 @@ class Spark extends Discord.Client {
             
             let info = Path.parse(path);
 
-            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))();
+            let cmd = new (require(`${info.dir}${Path.sep}${info.base}`))(this);
 
             if (cmd.init)
                 cmd.init(this);
@@ -41,13 +39,7 @@ class Spark extends Discord.Client {
             cmd.conf.location = info.dir;
             cmd.conf.base = info.base;
 
-            this.commands.set(cmd.help.name, cmd);
-
-            for (var alias of cmd.conf.aliases) {
-
-                this.aliases.set(alias, cmd.help.name);
-
-            }
+            this.commands.push(cmd);
 
             delete require.cache[require.resolve(`${info.dir}${Path.sep}${info.base}`)];
 
@@ -64,24 +56,13 @@ class Spark extends Discord.Client {
     }
 
     unloadCommand(cmdName) {
+        
+        let cmd = this.commands.find(c => c.help.name === cmdName || c.conf.aliases.includes(cmdName));
 
-        if (!this.commands.has(cmdName) && !this.aliases.has(cmdName))
+        if (!cmd);
             return `There's no command with the name/alias of ${cmdName}.`;
-        
-        let cmd;
-        if (this.commands.has(cmdName))
-            cmd = this.commands.get(cmdName)
-        
-        if (this.aliases.has(cmdName))
-            cmd = this.commands.get(this.aliases.get(cmdName));
-        
-        for (var alias of cmd.conf.aliases) {
 
-            this.aliases.delete(alias);
-
-        }
-
-        this.commands.delete(cmd.help.name);
+        this.commands.splice(this.commands.findIndex(c => Object.is(c, cmd)), 1);
 
         return false;
 
@@ -89,39 +70,25 @@ class Spark extends Discord.Client {
 
     reloadCommand(cmdName) {
 
-        if (!this.commands.has(cmdName) && !this.aliases.has(cmdName))
+        let cmd = this.commands.find(c => c.help.name === cmdName || c.conf.aliases.includes(cmdName));
+
+        if (!cmd);
             return `There's no command with the name/alias of ${cmdName}.`;
-        
-        let cmd;
-        if (this.commands.has(cmdName))
-            cmd = this.commands.get(cmdName)
-        
-        if (this.aliases.has(cmdName))
-            cmd = this.commands.get(this.aliases.get(cmdName));
-        
-        for (var alias of cmd.conf.aliases) {
 
-            this.aliases.delete(alias);
-
-        }
-
-        this.commands.delete(cmd.help.name);
+        this.commands.splice(this.commands.findIndex(c => Object.is(c, cmd)), 1);
 
         try {
 
             let info = [ cmd.conf.location,  cmd.conf.base ];
 
             cmd = new (require(`${info[0]}${Path.sep}${info[1]}`))(this);
+            if (cmd.init)
+                cmd.init(this);
+
             cmd.conf.location = info[0];
-            cmd.conf.base = info[1];
+            cmd.conf.base = info.base[1];
 
-            this.commands.set(cmd.help.name, cmd);
-
-            for (var alias of cmd.conf.aliases) {
-
-                this.aliases.set(alias, cmd.help.name);
-
-            }
+            this.commands.push(cmd);
 
             delete require.cache[require.resolve(`${info.dir}${Path.sep}${info.base}`)];
 
@@ -261,7 +228,7 @@ class Spark extends Discord.Client {
 
         }
 
-        await client.query(`UPDATE user_data SET ${Object.entries(obj).reduce((acc, [ col, dat ], i) => acc + `${i !== 0 ? ", " : ""}${col} = ${typeof dat === "string" ? `'${dat}'` : dat}`, "")} WHERE id = '${id}'`);
+        await client.query(`UPDATE user_data SET ${Object.entries(obj).reduce((acc, [ col, dat ], i) => acc + `${i !== 0 ? ", " : ""}${col} = ${typeof dat === "string" ? `'${dat}'` : dat instanceof Array ? `{}` : dat}`, "")} WHERE id = '${id}'`);
         await client.release(true);
 
     }

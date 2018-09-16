@@ -4,9 +4,9 @@ const Command = require("../base/Command.js");
 
 class CommandName extends Command {
 
-    constructor() {
+    constructor(client) {
 
-        super({
+        super(client, {
 
             name: "",
             description: "",
@@ -21,7 +21,7 @@ class CommandName extends Command {
 
     }
 
-    async run(client, msg, args, level) {
+    async run(msg, args, level) {
 
         // Codes Goes Here.
 

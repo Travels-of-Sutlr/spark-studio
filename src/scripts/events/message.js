@@ -25,7 +25,7 @@ module.exports = class {
         let invoked = args.shift().toLowerCase();
 
         const lvl = await this.client.permLevel(msg);
-        const cmd = this.client.commands.get(invoked) || this.client.commands.get(this.client.aliases.get(invoked));
+        const cmd = this.client.commands.find(c => c.help.name === invoked || c.conf.aliases.includes(invoked));
 
         if (!cmd)
             return;
@@ -57,7 +57,7 @@ module.exports = class {
 
         try {
 
-            await cmd.run(this.client, msg, args, lvl);
+            await cmd.run(msg, args, lvl);
 
         }
 

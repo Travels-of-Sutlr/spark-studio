@@ -4,9 +4,9 @@ const Command = require("../base/Command.js");
 
 class Help extends Command {
 
-    constructor() {
+    constructor(client) {
 
-        super({
+        super(client, {
 
             name: "help",
             description: "Displays the guide for the bot.",
@@ -18,7 +18,7 @@ class Help extends Command {
 
     }
 
-    async run(client, msg, args, level) {
+    async run(msg, args, level) {
 
         
 
