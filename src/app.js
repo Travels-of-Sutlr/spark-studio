@@ -106,7 +106,7 @@ class Spark extends Discord.Client {
 
     async permLevel(msg) {
 
-        let permLevels = this.config.permLevel.sort((a, b) => a.level > b.level ? 1 : -1).slice(1);
+        let permLevels = this.config.permLevel.slice(1).sort((a, b) => a.level > b.level ? -1 : 1);
         let lvl = 0;
 
         for (var level of permLevels) {
